@@ -7,37 +7,33 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.example.Paths.CURRENT_PATH;
-import static org.example.Paths.NEW_PATH;
+import static org.example.Paths.BASE_PATH;
+import static org.example.Paths.RESULT_PATH;
 
 public class Replacer {
 
-    private String strings = CURRENT_PATH + "values/%s";
     private Scanner sc = null;
-    private String line;
-    private String replaced;
 
     File file;
-//        if (!theDir.exists()){
-//            theDir.mkdirs();
-//        }
 
-    public void replaceBrackets(List<String> listOfDirs) {
-        Boolean newValuesDir = new File(NEW_PATH).mkdir();
+    public void replace(List<String> listOfDirs) {
+        Boolean newValuesDir = new File(RESULT_PATH).mkdir();
 
         for (String dirName : listOfDirs) {
 
+            String strings = BASE_PATH + "values/%s";
             file = new File(String.format(strings, dirName));
 
             try {
                 sc = new Scanner(file);
 
-                String dir = String.format(NEW_PATH + "%s", dirName.replace("html", "xml"));
+                String dir = String.format(RESULT_PATH + "%s", dirName.replace("html", "xml"));
 
-//                Boolean newDir = new File(dir).mkdir();
+                Boolean newDir = new File(dir).mkdir();
 
                 while (sc.hasNextLine()) {
-                    line = sc.nextLine();
+                    String line = sc.nextLine();
+                    String replaced;
                     if (!line.contains("<meta") && !line.contains("<head") && !line.contains("</head") && !line.contains("<html") && !line.contains("</html")) {
                         replaced = line
                                 .replace("<body>", "<resources>")
@@ -62,6 +58,7 @@ public class Replacer {
                 assert sc != null;
                 sc.close();
             }
+
         }
     }
 }

@@ -1,8 +1,21 @@
 package org.example;
 
-public class Main {
-    public static void main(String[] args) {
+import java.io.IOException;
 
-        new Replacer().replaceBrackets(new ListOfDirs().returnList());
+import static org.example.Paths.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        // задать платформу (ios, android), действие (замена строк, перевод),
+
+//        new Replacer().replace(new ListOfDirs().returnList());
+//        new ReplacerToHtml().replaceBrackets(new ListOfDirsToHtml().returnList());
+//        new iOSReplacer().replaceToXml();
+        new iOSReplacer().replaceToStrings(new ListOfDirs().returnList(MERGED_PATH));
+//        new FromOneToAnother().replaceFromTo(new ListOfDirs().returnList(FROM_PATH), "Localizable.xml");
+
+//    new JavaScriptReader().runScript();
+
     }
 }
