@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 import static org.example.Paths.*;
@@ -14,7 +15,7 @@ public class FromOneToAnother {
     String line;
     Map<String, String> keys = new HashMap<>();
 
-    public void replaceFromTo(List<String> listOfDirs, String fileName) {
+    public void replaceFromTo(List<String> listOfDirs, String fileName) throws FileNotFoundException {
         for (String dirName : listOfDirs) {
             fromFile = new File(BASE_PATH + FROM_PATH + dirName + "/" + fileName);
             toFile = new File(BASE_PATH + TO_PATH + dirName + "/" + fileName);
