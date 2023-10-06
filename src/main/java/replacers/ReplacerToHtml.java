@@ -1,28 +1,25 @@
-package org.example;
+package replacers;
+
+import files.Writer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static org.example.Paths.BASE_PATH;
-import static org.example.Paths.RESULT_PATH;
+import static files.Paths.BASE_PATH;
+import static files.Paths.RESULT_PATH;
 
 public class ReplacerToHtml {
 
-    private String strings = BASE_PATH + "articles/%s";
-    private Scanner sc = null;
-    private String line;
-    private String replaced;
-
+    String strings = BASE_PATH + "articles/%s";
+    Scanner sc;
+    String line;
     File files;
 
     public void replaceBrackets(List<String> listOfDirs) {
         for (String dirName : listOfDirs) {
-
             files = new File(String.format(strings, dirName));
 
             for (File file : Objects.requireNonNull(files.listFiles())) {
@@ -37,7 +34,7 @@ public class ReplacerToHtml {
                         while (sc.hasNextLine()) {
                             line = sc.nextLine();
                             if (!line.contains("<?xml")) {
-                                replaced = line
+                                line = line
                                         .replace("<resources>", "<html>\n" +
                                                 "  <head>\n" +
                                                 "    <meta charset=\"utf-8\">\n" +
@@ -50,7 +47,7 @@ public class ReplacerToHtml {
                                                 "\n" +
                                                 "</head>\n" +
                                                 "\n" +
-                                                "<body >")
+                                                "<body>")
                                         .replace("</body>", "</resources>")
                                         .replace("<string name=\"some\">", "<p>")
                                         .replace("[[ ", "<strong>")
@@ -61,13 +58,7 @@ public class ReplacerToHtml {
                                         .replace("</resources>", "</body>\n" +
                                                 "</html>");
 
-                                try (FileWriter writer = new FileWriter(resultFile, true)) {
-                                    writer.write(replaced);
-                                    writer.append('\n');
-                                    writer.flush();
-                                } catch (IOException ex) {
-                                    System.out.println(ex.getMessage());
-                                }
+                                Writer.writeToFile(resultFile, line);
                             }
                         }
                     } catch (FileNotFoundException e) {

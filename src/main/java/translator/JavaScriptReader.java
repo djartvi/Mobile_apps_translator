@@ -1,4 +1,4 @@
-package org.example;
+package translator;
 
 import javax.script.ScriptException;
 import java.io.*;
