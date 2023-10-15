@@ -12,12 +12,27 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static main.Constants.*;
-
-
 public class Translator {
 
-    String resultPath;
+    // Задаём платформу; папку; язык, с которого переводим; языки, на которые переводим
+    public void translate(String platform, String path, String langFrom, String languages) throws Exception {
+        String[] langList = languages.split(",");
+
+        TranslateSerializer translateSerializer = new TranslateSerializer().parse(platform, path);
+        List<String> toTranslate = translateSerializer.splitValues;
+
+        for (String language : langList) {
+            StringBuilder result = new StringBuilder();
+
+            for (String s : toTranslate) {
+                String request = callUrlAndParseResult(langFrom, language, s);
+                result.append(request).append("\n");
+            }
+            translateSerializer.build(platform, path, language, result.toString());
+            System.err.println(language + "----------");
+            System.out.println(result.toString());
+        }
+    }
 
     public String callUrlAndParseResult(String langFrom, String langTo, String text) throws Exception {
         String url = "https://translate.googleapis.com/translate_a/single?"+
@@ -55,24 +70,5 @@ public class Translator {
         }
 
         return result.toString();
-    }
-
-    public void translate(String platform, String path, String langFrom, String languages) throws Exception {
-        String[] langList = languages.split(",");
-
-        TranslateSerializer translateSerializer = new TranslateSerializer().parse(platform, path);
-        List<String> toTranslate = translateSerializer.splitValues;
-
-        for (String language : langList) {
-            StringBuilder result = new StringBuilder();
-
-            for (String s : toTranslate) {
-                String request = callUrlAndParseResult(langFrom, language, s);
-                result.append(request).append("\n");
-            }
-            translateSerializer.build(platform, path, resultPath, result.toString());
-            System.err.println(language + "----------");
-            System.out.println(result.toString());
-        }
     }
 }

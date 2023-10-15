@@ -5,28 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static main.Constants.VALUES_PATH;
-
 public class DirsAndFiles {
 
     private final List<String> listOfFiles = new ArrayList<>();
 
 
     public List<String> createListOfFiles(String workingDir) {
-        recursion(workingDir, workingDir);
+        recursion(workingDir);
         return listOfFiles;
     }
 
     // Проходимся по вложенным файлам. Если это не файл, а папка, то рекурсивно вызываем метод, пока не добавим все файлы
-    public void recursion(String workingDir, String parentDir) {
+    public void recursion(String workingDir) {
         File translatedDir = new File(workingDir);
 
         for (File file : Objects.requireNonNull(translatedDir.listFiles())) {
             if (file.isDirectory()) {
-                recursion(file.getAbsolutePath(), parentDir);
+                recursion(file.getAbsolutePath());
             } else if (file.isFile() && !file.getName().startsWith(".")) {
-                System.out.println(parentDir);
-                listOfFiles.add(file.getAbsolutePath().replace(parentDir, ""));
+                listOfFiles.add(file.getAbsolutePath());
             }
         }
     }

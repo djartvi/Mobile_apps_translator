@@ -16,14 +16,16 @@ public class Replacer {
 
     public void replace(String path, String... replacedValues) {
         List<String> listOfFiles = new DirsAndFiles().createListOfFiles(path);
-        resultDir = path.substring(0, path.length() - 1) + REPLACED_DIR_POSTFIX + SLASH;
+
+        // Задаём имя для новой папки с результатами
+        resultDir = path.substring(0, path.length() - 1) + REPLACED_DIR_POSTFIX;
 
         for (String filePath : listOfFiles) {
-            file = new File(path + SLASH + filePath);
+            file = new File(filePath);
 
             try {
                 sc = new Scanner(file);
-                resultFile = resultDir + filePath;
+                resultFile = filePath.replace(path, resultDir);
                 new File(resultFile).getParentFile().mkdirs();
 
                 while (sc.hasNextLine()) {

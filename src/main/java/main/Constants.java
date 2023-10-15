@@ -2,7 +2,7 @@ package main;
 
 public class Constants {
     // Платформа, для которой выполняем перевод ("ios" или "android")
-    public static final String PLATFORM = "ios";
+    public static final String PLATFORM = "android";
 
     /*
     Языки для перевода c английского. По умолчанию:
@@ -23,6 +23,6 @@ public class Constants {
     public static final String FROM_PATH = BASE_PATH + "1/";
     public static final String TO_PATH = BASE_PATH + "2/";
     public static final String MERGED_PATH = BASE_PATH + "3/";
-    public static final String REPLACED_DIR_POSTFIX = "_REPLACED";
+    public static final String REPLACED_DIR_POSTFIX = "_REPLACED/";
     public static final String SLASH = "/";
 }

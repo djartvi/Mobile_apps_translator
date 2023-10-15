@@ -1,16 +1,18 @@
 package main;
 
 import replacers.Replacer;
+import translator.Translator;
 
 import static main.Constants.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        String[] replacedValues = {" = ", "", ";", "ododood"};
-        new Replacer().replace(LOCALIZABLE_PATH, replacedValues);
+        // Задаём чётное кол-во значений. Каждое нечётное значение - заменяемый элемент, а каждое чётное - заменяющий.
+//        String[] replacedValues = {" = ", "", ";", "ododood"};
+//        new Replacer().replace(LOCALIZABLE_PATH, replacedValues);
 //
-//        new Translator().translate(PLATFORM, LANG_FROM, LANGUAGES);
+        new Translator().translate(PLATFORM, VALUES_PATH, LANG_FROM, LANGUAGES);
 //
 //        new Replacer().replace(new DirsAndFiles().createListOfDirs(FROM_PATH), XML_FILE, XML_FILE);
 //        new Find().find(new DirsAndFiles().createListOfDirs(FROM_PATH), XML_FILE, "paywall_price_lifetime\"");
