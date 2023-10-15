@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static files.Paths.BASE_PATH;
-import static files.Paths.RESULT_PATH;
+import static main.Constants.BASE_PATH;
+import static main.Constants.RESULT_PATH;
 
 public class ReplacerToHtml {
 

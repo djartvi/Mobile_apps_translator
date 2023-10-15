@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static files.Paths.*;
+import static main.Constants.*;
 
 
 public class Translator {
@@ -57,52 +57,20 @@ public class Translator {
         return result.toString();
     }
 
-    public void translate(String platform, String langFrom, String languages) throws Exception {
+    public void translate(String platform, String path, String langFrom, String languages) throws Exception {
         String[] langList = languages.split(",");
 
-        switch (platform) {
-            case "android":
-                translateToXml(langFrom, langList);
-                break;
-            case "ios":
-                translateToIOS(langFrom, langList);
-                break;
-            default:
-                System.err.println("Не задана платформа для перевода (\"android\" или \"ios\")");
-        }
-    }
-
-    public void translateToXml(String langFrom, String[] languages) throws Exception {
-        TranslateSerializer translateSerializer = new TranslateSerializer().parseXml();
+        TranslateSerializer translateSerializer = new TranslateSerializer().parse(platform, path);
         List<String> toTranslate = translateSerializer.splitValues;
 
-        for (String language : languages) {
+        for (String language : langList) {
             StringBuilder result = new StringBuilder();
 
             for (String s : toTranslate) {
                 String request = callUrlAndParseResult(langFrom, language, s);
                 result.append(request).append("\n");
             }
-            resultPath = VALUES_PATH + "values_" + language + "/" + XML_FILE;
-            translateSerializer.buildXmlFile(resultPath, result.toString());
-            System.err.println(language + "----------");
-            System.out.println(result.toString());
-        }
-    }
-
-    public void translateToIOS(String langFrom, String[] languages) throws Exception {
-        TranslateSerializer translateSerializer = new TranslateSerializer().parseIOS();
-        List<String> toTranslate = translateSerializer.splitValues;
-
-        for (String language : languages) {
-            StringBuilder result = new StringBuilder();
-
-            for (String s : toTranslate) {
-                String request = callUrlAndParseResult(langFrom, language, s);
-                result.append(request).append("\n");
-            }
-            resultPath = LOCALIZABLE_PATH + language + ".lproj/" + LOCALIZABLE_FILE;
-            translateSerializer.buildIOSFile(resultPath, result.toString());
+            translateSerializer.build(platform, path, resultPath, result.toString());
             System.err.println(language + "----------");
             System.out.println(result.toString());
         }

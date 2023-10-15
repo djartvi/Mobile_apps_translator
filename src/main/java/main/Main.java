@@ -1,17 +1,16 @@
 package main;
 
-import translator.Translator;
+import replacers.Replacer;
+
+import static main.Constants.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        String text = "<string name=\"week\">Пн Вт Ср Чт Пт Сб Вс</string>\n";
-
-//        System.out.println(new Translator().callUrlAndParseResult("ru", "en", text));
-
-        String languages = "ar,ca,cs,da,de,el,es,fi,fr,hi,hr,hu,id,it,he,ja,ko,ms,nl,no,pl,pt,ro,ru,sk,sv,th,tr,uk,vi,zh";
-
-        new Translator().translate("ios", "en", languages);
+        String[] replacedValues = {" = ", "", ";", "ododood"};
+        new Replacer().replace(LOCALIZABLE_PATH, replacedValues);
+//
+//        new Translator().translate(PLATFORM, LANG_FROM, LANGUAGES);
 //
 //        new Replacer().replace(new DirsAndFiles().createListOfDirs(FROM_PATH), XML_FILE, XML_FILE);
 //        new Find().find(new DirsAndFiles().createListOfDirs(FROM_PATH), XML_FILE, "paywall_price_lifetime\"");

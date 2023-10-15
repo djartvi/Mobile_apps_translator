@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static files.Paths.*;
+import static main.Constants.*;
 
 public class FromOneToAnother {
     Scanner sc;
@@ -61,7 +61,7 @@ public class FromOneToAnother {
     }
 
     public void addFromOneDirsToAnother(String fromPath, String fromFileName, String toPath, String toFileName) {
-        List<String> listOfDirs = new DirsAndFiles().createListOfDirs(fromPath);
+        List<String> listOfDirs = new DirsAndFiles().createListOfFiles(fromPath);
 
         for (String dirName : listOfDirs) {
             fromFile = new File(FROM_PATH + dirName + "/" + fromFileName);

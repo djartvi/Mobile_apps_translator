@@ -1,38 +1,39 @@
 package replacers;
 
+import files.DirsAndFiles;
 import files.Writer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-import static files.Paths.*;
+import static main.Constants.*;
 
 public class Replacer {
     Scanner sc;
     File file;
-    String line, dir;
+    String line, resultDir, resultFile;
 
-    public void replace(List<String> listOfDirs, String fromFileName, String toFileName) {
-        new File(RESULT_PATH).mkdir();
+    public void replace(String path, String... replacedValues) {
+        List<String> listOfFiles = new DirsAndFiles().createListOfFiles(path);
+        resultDir = path.substring(0, path.length() - 1) + REPLACED_DIR_POSTFIX + SLASH;
 
-        for (String dirName : listOfDirs) {
-            file = new File(FROM_PATH + dirName + "/" + fromFileName);
+        for (String filePath : listOfFiles) {
+            file = new File(path + SLASH + filePath);
 
             try {
                 sc = new Scanner(file);
-                dir = RESULT_PATH + dirName + "/" + toFileName;
-                new File(dir).getParentFile().mkdirs();
+                resultFile = resultDir + filePath;
+                new File(resultFile).getParentFile().mkdirs();
 
                 while (sc.hasNextLine()) {
-                    line = sc.nextLine().replace("[]", "%@" );
+                    line = replaceParts(sc.nextLine(), replacedValues);
 
                     if (line.contains("%@")) {
                         System.out.println(line);
                     }
 
-                    Writer.writeToFile(dir, line);
+                    Writer.writeToFile(resultFile, line);
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -41,5 +42,13 @@ public class Replacer {
                 sc.close();
             }
         }
+    }
+
+    // Передаём мап. Ключ - элемент, который хотим изменить. Значение - элемент, на который меняем
+    private String replaceParts(String line, String... replacedValues) {
+        for (int i = 0; i < replacedValues.length; i = i + 2) {
+            line = line.replace(replacedValues[i], replacedValues[i + 1]);
+        }
+        return line;
     }
 }

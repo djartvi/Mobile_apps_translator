@@ -5,31 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static main.Constants.VALUES_PATH;
+
 public class DirsAndFiles {
 
-    List<String> listOfDirs = new ArrayList<>();
-    List<String> listOfFiles = new ArrayList<>();
+    private final List<String> listOfFiles = new ArrayList<>();
 
-    public List<String> createListOfDirs(String workingDir) {
-        File translatedDir = new File(workingDir);
-
-        for (File dir : Objects.requireNonNull(translatedDir.listFiles())) {
-            if (dir.isDirectory()) {
-                listOfDirs.add(dir.getName());
-            }
-        }
-        return listOfDirs;
-    }
 
     public List<String> createListOfFiles(String workingDir) {
+        recursion(workingDir, workingDir);
+        return listOfFiles;
+    }
+
+    // Проходимся по вложенным файлам. Если это не файл, а папка, то рекурсивно вызываем метод, пока не добавим все файлы
+    public void recursion(String workingDir, String parentDir) {
         File translatedDir = new File(workingDir);
 
         for (File file : Objects.requireNonNull(translatedDir.listFiles())) {
-            if (file.isFile() && !file.getName().startsWith(".")) {
-                listOfFiles.add(file.getName());
+            if (file.isDirectory()) {
+                recursion(file.getAbsolutePath(), parentDir);
+            } else if (file.isFile() && !file.getName().startsWith(".")) {
+                System.out.println(parentDir);
+                listOfFiles.add(file.getAbsolutePath().replace(parentDir, ""));
             }
         }
-        return listOfFiles;
     }
 
     public void deleteDir(File dir) {

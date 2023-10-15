@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
-import static files.Paths.FROM_PATH;
+import static main.Constants.FROM_PATH;
 
 public class Find {
 

@@ -6,18 +6,45 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static files.Paths.*;
+import static main.Constants.*;
 
 public class TranslateSerializer {
     Scanner sc;
     File file;
-    String lprojDir, line, dir, key, value;
+    String lprojDir, line, dir, key, value, resultPath;
+    String[] keyValue;
     List<String> keys = new ArrayList<>();
     List<String> splitValues = new ArrayList<>();
+    StringBuilder toTranslate = new StringBuilder();
 
-    public TranslateSerializer parseXml() {
-        file = new File(VALUES_PATH + XML_FILE);
-        StringBuilder toTranslate = new StringBuilder();
+    public TranslateSerializer parse(String platform, String path) {
+        switch (platform) {
+            case "android":
+                parseXml(path);
+                break;
+            case "ios":
+                parseIOS(path);
+                break;
+        }
+        return this;
+    }
+
+    public TranslateSerializer build(String platform, String path, String language, String stringBody) {
+        switch (platform) {
+            case "android":
+                resultPath = path + "values_" + language + SLASH + XML_FILE;
+                buildXmlFile(resultPath, stringBody);
+                break;
+            case "ios":
+                resultPath = path + language + ".lproj" + SLASH + LOCALIZABLE_FILE;
+                buildIOSFile(resultPath, stringBody);
+                break;
+        }
+        return this;
+    }
+
+    private void parseXml(String path) {
+        file = new File(path + XML_FILE);
 
         try {
             sc = new Scanner(file);
@@ -48,13 +75,10 @@ public class TranslateSerializer {
         if (keys.size() % 50 != 0) {
             splitValues.add(toTranslate.toString());
         }
-        return this;
     }
 
-    public TranslateSerializer parseIOS() {
-        file = new File(LOCALIZABLE_PATH + LOCALIZABLE_FILE);
-        StringBuilder toTranslate = new StringBuilder();
-        String[] keyValue;
+    private void parseIOS(String path) {
+        file = new File(path + LOCALIZABLE_FILE);
 
         try {
             sc = new Scanner(file);
@@ -89,32 +113,31 @@ public class TranslateSerializer {
             splitValues.add(toTranslate.toString());
         }
 
-        return this;
     }
 
-    public void buildXmlFile(String PATH, String stringBody) {
-        new File(PATH).getParentFile().mkdirs();
+    private void buildXmlFile(String path, String stringBody) {
+        new File(path).getParentFile().mkdirs();
 
-        Writer.writeToFile(PATH, "<resources>");
+        Writer.writeToFile(path, "<resources>");
 
         sc = new Scanner(stringBody);
         int i = 0;
         while (sc.hasNextLine()) {
             line = String.format("<string name=\"%s\">%s</string>", keys.get(i), sc.nextLine());
-            Writer.writeToFile(PATH, line.trim());
+            Writer.writeToFile(path, line.trim());
             i++;
         }
-        Writer.writeToFile(PATH, "</resources>");
+        Writer.writeToFile(path, "</resources>");
     }
 
-    public void buildIOSFile(String PATH, String stringBody) {
-        new File(PATH).getParentFile().mkdirs();
+    private void buildIOSFile(String path, String stringBody) {
+        new File(path).getParentFile().mkdirs();
 
         sc = new Scanner(stringBody);
         int i = 0;
         while (sc.hasNextLine()) {
             line = String.format("%s = \"%s\";", keys.get(i), sc.nextLine());
-            Writer.writeToFile(PATH, line.trim());
+            Writer.writeToFile(path, line.trim());
             i++;
         }
     }
