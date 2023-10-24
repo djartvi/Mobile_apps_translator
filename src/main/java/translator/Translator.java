@@ -22,15 +22,16 @@ public class Translator {
         List<String> toTranslate = translateSerializer.splitValues;
 
         for (String language : langList) {
+            System.err.println(language + "----------");
             StringBuilder result = new StringBuilder();
 
             for (String s : toTranslate) {
                 String request = callUrlAndParseResult(langFrom, language, s);
                 result.append(request).append("\n");
             }
+
             translateSerializer.build(platform, path, language, result.toString());
-            System.err.println(language + "----------");
-            System.out.println(result.toString());
+//            System.out.println(result.toString());
         }
     }
 

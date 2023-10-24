@@ -11,7 +11,7 @@ import static main.Constants.*;
 public class TranslateSerializer {
     Scanner sc;
     File file;
-    String lprojDir, line, dir, key, value, resultPath;
+    String line, key, value, resultPath;
     String[] keyValue;
     List<String> keys = new ArrayList<>();
     List<String> splitValues = new ArrayList<>();
@@ -26,6 +26,7 @@ public class TranslateSerializer {
                 parseIOS(path);
                 break;
         }
+
         return this;
     }
 
@@ -36,10 +37,20 @@ public class TranslateSerializer {
                 buildXmlFile(resultPath, stringBody);
                 break;
             case "ios":
-                resultPath = path + language + ".lproj" + SLASH + LOCALIZABLE_FILE;
-                buildIOSFile(resultPath, stringBody);
+                // В iOS нужно 2 локали для норвежского языка
+                if (language.equals("no")) {
+                    for (String norwayLang : new String[]{"nb", "nn"}) {
+                        resultPath = path + norwayLang + ".lproj" + SLASH + LOCALIZABLE_FILE;
+                        buildIOSFile(resultPath, stringBody);
+                    }
+                } else {
+                    resultPath = path + language + ".lproj" + SLASH + LOCALIZABLE_FILE;
+                    buildIOSFile(resultPath, stringBody);
+                }
+
                 break;
         }
+
         return this;
     }
 
@@ -88,7 +99,6 @@ public class TranslateSerializer {
 
                 if (line.contains(" = ")) {
                     keyValue = line.split(" = ");
-
                     keys.add(keyValue[0]);
 
                     toTranslate.append(keyValue[1]
@@ -96,6 +106,7 @@ public class TranslateSerializer {
                             .replace(";", ""))
                             .append("\n");
 
+                    // отправляем на перевод по 50 строк в запросе, иначе есть риск, что вернётся ошибка
                     if (keys.size() % 50 == 0) {
                         splitValues.add(toTranslate.toString());
                         toTranslate = new StringBuilder();
@@ -109,10 +120,10 @@ public class TranslateSerializer {
             sc.close();
         }
 
+        // если строк меньше, чем 50, то этот остаток тоже отправляем на перевод
         if (keys.size() % 50 != 0) {
             splitValues.add(toTranslate.toString());
         }
-
     }
 
     private void buildXmlFile(String path, String stringBody) {
@@ -122,11 +133,13 @@ public class TranslateSerializer {
 
         sc = new Scanner(stringBody);
         int i = 0;
+
         while (sc.hasNextLine()) {
             line = String.format("<string name=\"%s\">%s</string>", keys.get(i), sc.nextLine());
             Writer.writeToFile(path, line.trim());
             i++;
         }
+
         Writer.writeToFile(path, "</resources>");
     }
 
@@ -135,10 +148,24 @@ public class TranslateSerializer {
 
         sc = new Scanner(stringBody);
         int i = 0;
+        int j = 0;
+        int k = 0;
         while (sc.hasNextLine()) {
             line = String.format("%s = \"%s\";", keys.get(i), sc.nextLine());
+
+            // Блок для проверки качества перевода. Часто слетают переводы и параметризация
+            if (line.contains("%@")) {
+                System.out.println(line);
+                j++ ;
+            } else if (line.contains("\\n")) {
+                System.out.println(line);
+                k++;
+            }
+
             Writer.writeToFile(path, line.trim());
             i++;
         }
+
+        System.err.printf("Параметров \"%%\": %d. Переносов строки: %d.\n", j, k);
     }
 }

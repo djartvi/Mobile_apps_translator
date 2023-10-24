@@ -2,7 +2,7 @@ package main;
 
 public class Constants {
     // Платформа, для которой выполняем перевод ("ios" или "android")
-    public static final String PLATFORM = "android";
+    public static final String PLATFORM = "ios";
 
     /*
     Языки для перевода c английского. По умолчанию:
