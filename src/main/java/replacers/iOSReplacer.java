@@ -1,15 +1,13 @@
 package replacers;
 
 import files.DirsAndFiles;
-import main.Constants;
+import main.Settings;
 import files.Writer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
-
-import static main.Constants.BASE_PATH;
 
 public class iOSReplacer {
     Scanner sc;
@@ -18,12 +16,12 @@ public class iOSReplacer {
     String[] keyValue;
 
     public void replaceToXml(String PATH, String FileName) {
-        new File(Constants.RESULT_PATH).mkdir();
+        new File(Settings.RESULT_PATH).mkdir();
         file = new File(PATH + FileName);
 
         try {
             sc = new Scanner(file);
-            dir = Constants.RESULT_PATH + Constants.XML_FILE;
+            dir = Settings.RESULT_PATH + Settings.XML_FILE;
             Writer.writeToFile(dir, "<resources>");
 
             while (sc.hasNextLine()) {
@@ -51,11 +49,11 @@ public class iOSReplacer {
         List<String> listOfDirs = new DirsAndFiles().createListOfFiles(path);
 
         for (String dirName : listOfDirs) {
-            file = new File(path + dirName + "/" + Constants.XML_FILE);
+            file = new File(path + dirName + "/" + Settings.XML_FILE);
 
             try {
                 lprojDir = dirName.substring(7, 9) + ".lproj/";
-                dir = Constants.RESULT_PATH + lprojDir + Constants.LOCALIZABLE_FILE;
+                dir = Settings.RESULT_PATH + lprojDir + Settings.LOCALIZABLE_FILE;
                 new File(dir).getParentFile().mkdirs();
                 sc = new Scanner(file);
                 sc.nextLine();

@@ -2,13 +2,12 @@ package replacers;
 
 import files.DirsAndFiles;
 import files.Writer;
-import main.Links;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static main.Constants.*;
+import static main.Settings.*;
 
 public class FromOneToAnother {
     Scanner sc;

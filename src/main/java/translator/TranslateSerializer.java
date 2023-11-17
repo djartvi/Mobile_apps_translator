@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static main.Constants.*;
+import static main.Settings.*;
 
 public class TranslateSerializer {
     private Scanner sc;

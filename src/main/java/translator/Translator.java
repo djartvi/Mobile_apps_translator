@@ -12,12 +12,12 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static main.Constants.BASE_PATH;
-import static main.Constants.RESULT_PATH;
+import static main.Settings.BASE_PATH;
+import static main.Settings.RESULT_PATH;
 
 public class Translator {
 
-    // Задаём платформу; папку; язык, с которого переводим; языки, на которые переводим
+    // Задаём папку; платформу; язык, с которого переводим; языки, на которые переводим
     public void translate(String platform, String langFrom, String languages) throws Exception {
         String[] langList = languages.split(",");
 

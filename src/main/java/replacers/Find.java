@@ -1,15 +1,11 @@
 package replacers;
 
 import files.DirsAndFiles;
-import files.Writer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
-
-import static main.Constants.FROM_PATH;
-import static main.Constants.REPLACED_DIR_POSTFIX;
 
 public class Find {
 

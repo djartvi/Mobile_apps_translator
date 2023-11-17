@@ -1,14 +1,13 @@
 package replacers;
 
 import files.DirsAndFiles;
-import main.Constants;
 import files.Writer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static main.Constants.BASE_PATH;
+import static main.Settings.BASE_PATH;
 
 public class Compare {
     Scanner sc;
@@ -18,8 +17,8 @@ public class Compare {
 
     // сравнивает строки в файлах
     public void compareLinesInFiles(String dirName, String firstFileName, String secondFileName) {
-            firstFile = new File( BASE_PATH + dirName + "/" + firstFileName);
-            secondFile = new File(BASE_PATH + dirName + "/" + secondFileName);
+            firstFile = new File(dirName + "/" + firstFileName);
+            secondFile = new File(dirName + "/" + secondFileName);
 
             try {
                 sc = new Scanner(firstFile);
@@ -36,7 +35,7 @@ public class Compare {
 
             try {
                 sc = new Scanner(secondFile);
-                result = BASE_PATH + dirName + "/result.strings";
+                result = dirName + "/result.strings";
                 new DirsAndFiles().rewriteFile(result);
 
                 Writer.writeToFile(result, "-----этих строк нет в первом файле-----");

@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static main.Constants.*;
+import static main.Settings.*;
 
 public class Replacer {
     Scanner sc;
@@ -56,11 +56,9 @@ public class Replacer {
     }
 
     // Отдельный метод для дней недели. Корректно переводится сокращения, только когда указана последовательность "Пн Вт Ср ..."
-    public void replaceDaysOfWeek(String path, String platform) {
+    public void replaceDaysOfWeek(String path, String platform, String[] weekDaysKeys) {
         List<String> listOfFiles = new DirsAndFiles().createListOfFiles(path);
         Map<String, Map<Byte, String>> daysOfWeekTranslates = new DaysOfWeek().getLanguageMap();
-        String[] weekDaysKeys = {"plan_week_mon", "plan_week_tue", "plan_week_wed",
-                "plan_week_thu", "plan_week_fri", "plan_week_sat", "plan_week_sun"};
 
         // Задаём имя для новой папки с результатами
         resultDir = path.substring(0, path.length() - 1) + REPLACED_DIR_POSTFIX;

@@ -1,6 +1,6 @@
 package main;
 
-public class Constants {
+public class Settings {
     // Платформа, для которой выполняем перевод ("ios" или "android")
     public static final String PLATFORM = "ios";
 
@@ -23,4 +23,8 @@ public class Constants {
     public static final String MERGED_PATH = BASE_PATH + "3/";
     public static final String REPLACED_DIR_POSTFIX = "_REPLACED/";
     public static final String SLASH = "/";
+
+    // ключи, по которым
+    public static final String[] WEEK_DAYS_KEYS = {"plan_week_mon", "plan_week_tue", "plan_week_wed",
+            "plan_week_thu", "plan_week_fri", "plan_week_sat", "plan_week_sun"};
 }
