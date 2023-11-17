@@ -12,14 +12,17 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import static main.Constants.BASE_PATH;
+import static main.Constants.RESULT_PATH;
+
 public class Translator {
 
     // Задаём платформу; папку; язык, с которого переводим; языки, на которые переводим
-    public void translate(String platform, String path, String langFrom, String languages) throws Exception {
+    public void translate(String platform, String langFrom, String languages) throws Exception {
         String[] langList = languages.split(",");
 
-        TranslateSerializer translateSerializer = new TranslateSerializer().parse(platform, path);
-        List<String> toTranslate = translateSerializer.splitValues;
+        TranslateSerializer translateSerializer = new TranslateSerializer().parse(platform, BASE_PATH);
+        List<String> toTranslate = translateSerializer.getSplitValues();
 
         for (String language : langList) {
             System.err.println(language + "----------");
@@ -30,7 +33,7 @@ public class Translator {
                 result.append(request).append("\n");
             }
 
-            translateSerializer.build(platform, path, language, result.toString());
+            translateSerializer.build(platform, RESULT_PATH, language, result.toString());
 //            System.out.println(result.toString());
         }
     }

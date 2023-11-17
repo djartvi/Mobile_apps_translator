@@ -9,13 +9,13 @@ import java.util.*;
 import static main.Constants.*;
 
 public class TranslateSerializer {
-    Scanner sc;
-    File file;
-    String line, key, value, resultPath;
-    String[] keyValue;
-    List<String> keys = new ArrayList<>();
-    List<String> splitValues = new ArrayList<>();
-    StringBuilder toTranslate = new StringBuilder();
+    private Scanner sc;
+    private File file;
+    private String line, key, value, resultPath;
+    private String[] keyValue;
+    private final List<String> keys = new ArrayList<>();
+    private final List<String> splitValues = new ArrayList<>();
+    private StringBuilder toTranslate = new StringBuilder();
 
     public TranslateSerializer parse(String platform, String path) {
         switch (platform) {
@@ -133,14 +133,29 @@ public class TranslateSerializer {
 
         sc = new Scanner(stringBody);
         int i = 0;
+        int j = 0;
+        int k = 0;
 
         while (sc.hasNextLine()) {
             line = String.format("<string name=\"%s\">%s</string>", keys.get(i), sc.nextLine());
+
+            // Блок для проверки качества перевода. Часто слетают переводы и параметризация
+            if (line.contains("%@")) {
+                System.out.println(line);
+                j++ ;
+            } else if (line.contains("\\n")) {
+                System.out.println(line);
+                k++;
+            }
+
             Writer.writeToFile(path, line.trim());
             i++;
         }
 
         Writer.writeToFile(path, "</resources>");
+
+        System.err.printf("Параметров \"%%\": %d. Переносов строки: %d.\n", j, k);
+
     }
 
     private void buildIOSFile(String path, String stringBody) {
@@ -167,5 +182,9 @@ public class TranslateSerializer {
         }
 
         System.err.printf("Параметров \"%%\": %d. Переносов строки: %d.\n", j, k);
+    }
+
+    public List<String> getSplitValues() {
+        return splitValues;
     }
 }

@@ -24,7 +24,7 @@ public class DaysOfWeek {
         languageMap.put("hu", createDayMap("Hé", "Ke", "Sze", "Cs", "Pé", "Szo", "Va"));
         languageMap.put("id", createDayMap("Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"));
         languageMap.put("it", createDayMap("Lu", "Ma", "Me", "Gi", "Ve", "Sa", "Do"));
-        languageMap.put("he", createDayMap("יום", "ב'", "יום", "ג'", "יום", "ד'", "יום", "ה'", "יום", "ו'", "יום", "ש'", "שבת"));
+        languageMap.put("he", createDayMap("יום א'", "יום שבת", "יום ו'", "יום ה'", "יום ד'", "יום ג'", "יום ב'"));
         languageMap.put("ja", createDayMap("月", "火", "水", "木", "金", "土", "日"));
         languageMap.put("ko", createDayMap("월", "화", "수", "목", "금", "토", "일"));
         languageMap.put("ms", createDayMap("Is", "Se", "Ra", "Kh", "Ju", "Sa", "Ah"));

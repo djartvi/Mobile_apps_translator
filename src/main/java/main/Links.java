@@ -1,5 +1,6 @@
 package main;
 
+//Ссылки для статей в Трекере голодания
 public class Links {
     public static final String LINK_0_1 = "<p><a href=\"https://onlinelibrary.wiley.com/doi/abs/10.1002/oby.23200\">Impact of preconception weight loss on fasting glucose and pregnancy outcomes in women with obesity: A randomized trial</a></p>\n";
     public static final String LINK_0_2 = "<p><a href=\"https://casereports.bmj.com/content/2018/bcr-2017-221854.short\">Therapeutic use of intermittent fasting for people with type 2 diabetes as an alternative to insulin</a></p>\n";

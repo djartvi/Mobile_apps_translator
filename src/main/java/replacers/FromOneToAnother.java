@@ -119,10 +119,10 @@ public class FromOneToAnother {
                             if (line.contains("</body>")) {
                                 line = line
                                         .replace("</body>", "<p>" + keys.get("0") + "<br>\n"
-                                                + Links.LINK_4_1
-                                                + Links.LINK_4_2
-                                                + Links.LINK_4_3
-                                                + Links.LINK_4_4
+//                                                + Links.LINK_4_1
+//                                                + Links.LINK_4_2
+//                                                + Links.LINK_4_3
+//                                                + Links.LINK_4_4
                                                 + "</p>\n</body>");
                             }
                             Writer.writeToFile(result, line);

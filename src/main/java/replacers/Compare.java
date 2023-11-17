@@ -16,7 +16,7 @@ public class Compare {
     String result, line;
     List<String> strings = new ArrayList<>();
 
-    // сравнивает строки в файлах, в папке с рабочего стола
+    // сравнивает строки в файлах
     public void compareLinesInFiles(String dirName, String firstFileName, String secondFileName) {
             firstFile = new File( BASE_PATH + dirName + "/" + firstFileName);
             secondFile = new File(BASE_PATH + dirName + "/" + secondFileName);
